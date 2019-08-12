@@ -1,5 +1,24 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Concord Ping Pong App
+
+Hey!
+
+Feel free to submit PRs to make this app better.
+
+Goals:
+- [ ] wip - Make use of Raspberry Pi with Touchscreen to start new game and see current score
+- [ ] wip - Use a USB encoder connected to arcade buttons so the score can be incremented, decremented and start a new game with defaults.  The buttons will emulate key presses.
+- [ ] Ability to add player names to a game
+- [ ] Create scoreboard page that shows the score of the current game that can be shown on the tv in the ping pong room.
+- [ ] Connect app to firebase so anyone can visit a webpage to see active game score or reserve table
+- [ ] Slack bot to see table availability/current game score
+- [ ] Tournament generator
+- [ ] Slack bot tournament generator
+- [ ] Slack notifications when it's your turn to play
+
+
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -37,32 +56,3 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
