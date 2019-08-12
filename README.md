@@ -8,7 +8,8 @@ Feel free to submit PRs to make this app better.
 
 ## Goals:
 - [ ] wip - Make use of Raspberry Pi with Touchscreen to start new game and see current score
-- [ ] wip - Use a USB encoder connected to arcade buttons so the score can be incremented, decremented and start a new game with defaults.  The buttons will emulate key presses.
+- [ ] wip - UI optimized for 400x800 resolution of Raspberry Pi Touchscreen
+- [ ] wip - Use a USB encoder connected to arcade buttons so the score can be incremented, decremented and start a new game with defaults settings.  The buttons will emulate key presses.
 - [ ] Ability to add player names to a game
 - [ ] Create scoreboard page that shows the score of the current game that can be shown on the tv in the ping pong room.
 - [ ] Connect app to firebase so anyone can visit a webpage to see active game score or reserve table
