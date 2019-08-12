@@ -6,7 +6,7 @@ Hey!
 
 Feel free to submit PRs to make this app better.
 
-Goals:
+## Goals:
 - [ ] wip - Make use of Raspberry Pi with Touchscreen to start new game and see current score
 - [ ] wip - Use a USB encoder connected to arcade buttons so the score can be incremented, decremented and start a new game with defaults.  The buttons will emulate key presses.
 - [ ] Ability to add player names to a game
