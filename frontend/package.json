@@ -34,7 +34,6 @@
     "styled-components": "^4.3.2",
     "subscriptions-transport-ws": "^0.9.16"
   },
-  "homepage": "http://www.tydev.io/pingpong",
   "proxy": "http://localhost:4000",
   "scripts": {
     "start": "react-scripts start",
