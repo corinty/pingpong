@@ -1,0 +1,28 @@
+{
+  "name": "pingpong-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "dependencies": {
+    "apollo-server": "^2.8.1",
+    "apollo-server-express": "^2.8.1",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.3.0",
+    "graphql": "^14.4.2",
+    "graphql-import": "^0.7.1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
+  },
+  "scripts": {
+    "start": "nodemon babel-node -- src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
+
+@import url("https://fonts.googleapis.com/css?family=Archivo+Black&display=swap");
+
+html,
+body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: lighten($color: #547c83, $amount: 10);
+}
+
+#root {
+  position: relative;
+  height: 100vh;
+  height: 480px;
+  width: 800px;
+  margin: auto;
+  background: black;
+  box-shadow: 0px 1px 8px 1px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  @media (max-width: 900px) {
+    box-shadow: none;
+  }
+}
+
+.serve-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.45rem;
+  text-align: center;
+}
+
+.winner-modal {
+  position: absolute;
+  width: 100vw;
+  height: 90vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 15px;
+  padding-bottom: 15px;
+  background: black;
+  button {
+    background: grey;
+    border-radius: 6px;
+    height: 50px;
+  }
+  &__serve-num {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.btn--increment {
+  color: white;
+  background: #547c83;
+  display: grid;
+  grid-template-rows: 25% 75%;
+
+  user-select: none;
+  &:first-of-type {
+    animation: flyInLeft 0.7s forwards;
+  }
+  &:last-of-type {
+    animation: flyInRight 0.7s forwards;
+  }
+  p {
+    margin: 0;
+    font-family: "Archivo Black", sans-serif;
+    font-size: 3rem;
+  }
+  .team-name {
+    padding-top: 32px;
+    text-align: center;
+  }
+  .score {
+    height: 75%;
+    font-size: 14rem;
+  }
+}
+
+.score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.new-match-form {
+  background: white;
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 150px;
+  grid-gap: 30px;
+  h1 {
+    grid-column: span 2;
+  }
+  label {
+    padding: 0 20px;
+    & > * {
+      margin-left: 10px;
+    }
+  }
+}
+button.btn--full-width {
+  width: 100%;
+  appearance: none;
+  border: none;
+  margin: 0;
+  background: #3aafa9;
+  grid-column: span 2;
+  color: white;
+  font-size: 100px;
+  font-weight: bold;
+  &:focus {
+    outline: none;
+    background: darken($color: #3aafa9, $amount: 10);
+  }
+  &:active {
+    background: darken($color: #3aafa9, $amount: 10);
+  }
+}
+
+.winner-screen {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  p {
+    margin: auto;
+  }
+}
+
+.keyboard__container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  .hg-button-space {
+    width: 75%;
+  }
+  .simple-keyboard.hg-theme-default .hg-button {
+    height: 80px;
+    font-size: 1.9rem;
+    font-weight: bold;
+  }
+}
+
+@keyframes flyInLeft {
+  from {
+    transform: translate3d(-100%, 0, 0);
+    // opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0f, 0);
+    opacity: 1;
+  }
+}
+@keyframes flyInRight {
+  from {
+    transform: translate3d(100%, 0, 0);
+    // opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0f, 0);
+    opacity: 1;
+  }
+}

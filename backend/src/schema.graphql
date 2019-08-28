@@ -1,0 +1,65 @@
+type Query {
+  activeMatch: Active
+}
+
+type Mutation {
+  createMatch(
+    gamesToWin: Int
+    pointsToWin: Int
+    team1_name: String
+    team2_name: String
+  ): Active
+  updateScore(
+    matchId: String!
+    gameId: String!
+    team: TeamEnum!
+    score: Int!
+    increment: Boolean!
+  ): Game
+  declareWinner(matchId: String!, gameId: String!, winner: TeamEnum!): Match
+  nextGame(matchId: String!): Active
+}
+
+type Subscription {
+  scoreUpdated(gameId: Int): Game
+}
+
+type Match {
+  active: Boolean!
+  winner: TeamEnum
+  games: [Game]!
+  gamesToWin: Int!
+  pointsToWin: Int!
+  team1_name: String
+  team2_name: String
+  gamesWon: Wins
+  createdAt: String!
+}
+
+type Wins {
+  team1: Int
+  team2: Int
+}
+type Game {
+  team1_score: Int!
+  team2_score: Int!
+  winner: TeamEnum
+  servingTeam: TeamEnum!
+}
+
+type Score {
+  team1_score: Int!
+  team2_score: Int!
+}
+
+type Active {
+  matchId: String
+  gameId: String
+  match: Match
+  game: Game
+}
+
+enum TeamEnum {
+  team1
+  team2
+}
