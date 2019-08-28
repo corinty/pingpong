@@ -20,7 +20,7 @@ export default class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <Provider store={store}>
-          <Router>
+          <Router basename="pingpong">
             <Switch>
               <Route path="/" exact component={NewMatch} />
 
