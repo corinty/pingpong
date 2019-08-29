@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -25,6 +25,21 @@ export default function Winner({ winner, matchId }) {
     `,
     { variables: { matchId } }
   );
+
+  useEffect(() => {
+    document.addEventListener("keydown", addArcadeListeners);
+    function addArcadeListeners(e) {
+      if (e.key === "w" || "q" || "a" || "s") {
+        nextGame().then(res => {
+          dispatch(initializeGameAction({ data: res.data.nextGame, history }));
+        });
+      }
+    }
+
+    return () => {
+      document.removeEventListener("keydown", addArcadeListeners);
+    };
+  }, [dispatch, history, nextGame]);
 
   if (winner.match) {
     setTimeout(() => {
