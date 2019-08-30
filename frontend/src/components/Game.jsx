@@ -116,7 +116,7 @@ export default function Game() {
   // return <p>back to data testing</p>;
 
   return loading ? null : (
-    <Container>
+    <Container className="pi-focused">
       <div
         className="btn--increment"
         onClick={e => {
@@ -138,7 +138,7 @@ export default function Game() {
         className="center-btns"
         onClick={() => {
           dispatch({ type: EXIT_GAME });
-          history.push("/");
+          history.push("/match");
         }}
       />
 

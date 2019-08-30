@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { initializeMatchAction } from "./store/actions/actions";
+import { initializeMatchAction } from "../store/actions/actions";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
@@ -66,8 +66,7 @@ function NewMatch({ history }) {
   }
 
   return (
-    <div style={{ height: "100%", display: "grid" }}>
-      {/* <h1>Start a New Game:</h1> */}
+    <div style={{ display: "grid" }} className="pi-focused">
       <form
         className="new-match-form"
         autoComplete="off"

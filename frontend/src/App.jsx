@@ -7,9 +7,10 @@ import firebase from "firebase/app";
 
 // Add the Firebase services that you want to use
 import { Provider } from "react-redux";
-import CurrentMatch from "./CurrentMatch";
-import NewMatch from "./NewMatch";
-import "./App.scss";
+import CurrentMatch from "./pages/CurrentMatch";
+import NewMatch from "./pages/NewMatch";
+import ScoreBoard from "./pages/ScoreBoard";
+import "./scss/App.scss";
 
 const store = createReduxStore(firebase);
 
@@ -22,12 +23,13 @@ export default class App extends React.Component {
         <Provider store={store}>
           <Router>
             <Switch>
-              <Route path="/" exact component={NewMatch} />
-
+              {/* Pi Focused screens  */}
+              <Route path="/match" exact component={NewMatch} />
               <Route
                 path={["/match/:matchId/game/:gameId"]}
                 component={CurrentMatch}
               />
+              <Route path="/scoreboard" component={ScoreBoard} />
             </Switch>
           </Router>
         </Provider>

@@ -44,7 +44,7 @@ export default function Winner({ winner, matchId }) {
   if (winner.match) {
     setTimeout(() => {
       dispatch({ type: EXIT_GAME });
-      history.push("/");
+      history.push("/match");
     }, 5000);
   }
   return winner.match ? (
@@ -54,13 +54,13 @@ export default function Winner({ winner, matchId }) {
         className="btn--full-width"
         onClick={() => {
           dispatch({ type: EXIT_GAME });
-          history.push("/");
+          history.push("/match");
         }}>
         New Match
       </button>
     </div>
   ) : (
-    <div className="winner-screen">
+    <div className="winner-screen pi-focused">
       <p>Game winner {winner.game}</p>
       <button
         className="btn--full-width"
