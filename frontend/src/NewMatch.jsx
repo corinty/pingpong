@@ -135,12 +135,18 @@ function NewMatch({ history }) {
             />
           </label>
         </div>
-        <button type="submit" className="btn--full-width">
+        <button
+          disabled={keyboardShowing}
+          type="submit"
+          className="btn--full-width">
           {mutationLoading ? "Loading..." : "Start Match"}
         </button>
       </form>
       {keyboardShowing && (
-        <div className="keyboard__container">
+        <div
+          className={`keyboard__container ${
+            layoutName === "shift" ? "keyboard__container--shift" : ""
+          }`}>
           <Keyboard
             onChange={input => {
               setState({
@@ -157,17 +163,23 @@ function NewMatch({ history }) {
               default: [
                 "q w e r t y u i o p {bksp}",
                 "a s d f g h j k l",
-                "{shift} z x c v b n m",
-                "{space} {close}"
+                "z x c v b n m",
+                "{shift} & {space} , {close}"
               ],
               shift: [
                 "Q W E R T Y U I O P {bksp}",
                 "A S D F G H J K L",
-                "{shift} Z X C V B N M",
-                "{space} {close}"
+                "Z X C V B N M",
+                "{shift} & {space} , {close}"
               ],
               numpad: ["7 8 9", "4 5 6", "1 2 3", " 0 {ok}"]
             }}
+            buttonTheme={[
+              {
+                class: "highlight",
+                buttons: "{shift}"
+              }
+            ]}
             onKeyPress={btn => {
               if (btn === "{shift}") {
                 setLayoutName(layoutName === "default" ? "shift" : "default");
@@ -179,7 +191,7 @@ function NewMatch({ history }) {
             mergeDisplay={true}
             display={{
               "{bksp}": "⌫",
-              "{close}": "Exit",
+              "{close}": "✓",
               "{shift}": "⇪",
               "{ok}": "✓"
             }}

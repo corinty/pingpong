@@ -152,12 +152,18 @@ button.btn--full-width {
   width: 100%;
   background: white;
   .hg-button-space {
-    width: 75%;
+    width: 50%;
   }
   .simple-keyboard.hg-theme-default .hg-button {
     height: 80px;
     font-size: 1.9rem;
     font-weight: bold;
+  }
+  &--shift {
+    .hg-button.highlight {
+      background: #3aafa9;
+      color: white;
+    }
   }
 }
 
