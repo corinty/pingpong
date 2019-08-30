@@ -7,9 +7,16 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
 function NewMatch({ history }) {
+  const dispatch = useDispatch();
   const [keyboardShowing, showKeyboard] = useState(false);
   const [inputTarget, setInputTarget] = useState(null);
-  const dispatch = useDispatch();
+  const [layoutName, setLayoutName] = useState("default");
+  const [state, setState] = useState({
+    team1_name: "",
+    team2_name: "",
+    pointsToWin: 21,
+    gamesToWin: 2
+  });
   const [createMatch, { loading: mutationLoading }] = useMutation(gql`
     mutation CreateMatch(
       $pointsToWin: Int
@@ -40,14 +47,6 @@ function NewMatch({ history }) {
     }
   `);
 
-  const [layoutName, setLayoutName] = useState("default");
-
-  const [state, setState] = useState({
-    team1_name: "",
-    team2_name: "",
-    pointsToWin: 21,
-    gamesToWin: 2
-  });
   const { team1_name, team2_name, gamesToWin, pointsToWin } = state;
   function handleChange(e) {
     setState({
@@ -60,11 +59,10 @@ function NewMatch({ history }) {
   }
 
   function handleFocus(e) {
-    showKeyboard(true);
-
     setLayoutName(e.target.name === "pointsToWin" ? "numpad" : "default");
-
+    setState({ ...state, [e.target.name]: "" });
     setInputTarget(e.target.name);
+    showKeyboard(true);
   }
 
   return (
@@ -147,6 +145,9 @@ function NewMatch({ history }) {
           className={`keyboard__container ${
             layoutName === "shift" ? "keyboard__container--shift" : ""
           }`}>
+          <div className="keyboard__input">
+            <span>{state[inputTarget]}</span>
+          </div>
           <Keyboard
             onChange={input => {
               setState({
