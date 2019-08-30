@@ -13,7 +13,7 @@ import "./App.scss";
 
 const store = createReduxStore(firebase);
 
-const client = new ApolloClient();
+const client = new ApolloClient({ uri: "http://localhost:5001/graphql" });
 
 export default class App extends React.Component {
   render() {

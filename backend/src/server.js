@@ -54,8 +54,8 @@ app.get("/", (req, res) => {
   res.send("How you doin");
 });
 
-app.listen(4000);
+app.listen(5001);
 
 console.log(
-  `Running a GraphQL API server at http://localhost:4000${server.graphqlPath}`
+  `Running a GraphQL API server at http://localhost:5001${server.graphqlPath}`
 );
