@@ -9,15 +9,14 @@ import rootReducer from "./reducers/index.Reducer";
 const initialState = {};
 
 const middleware = [thunk.withExtraArgument({ getFirebase, getFirestore })];
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export default firebaseInstance => {
   return createStore(
     rootReducer,
     initialState,
-    compose(
+    composeEnhancers(
       applyMiddleware(...middleware),
-      reduxFirestore(firebaseInstance),
-      window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__()
+      reduxFirestore(firebaseInstance)
     )
   );
 };
