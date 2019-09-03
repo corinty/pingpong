@@ -4,4 +4,25 @@
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 30vh 70vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  text-align: center;
+  font-family: "Archivo Black", sans-serif;
+
+  & > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 {
+    font-size: 14vh;
+    margin: 0;
+    font-weight: normal;
+  }
+  &__score {
+    color: white;
+    font-size: 80vh;
+  }
 }

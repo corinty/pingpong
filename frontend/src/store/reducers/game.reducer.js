@@ -18,7 +18,7 @@ export default function gameReducer(state = initalGame, action) {
     case INITIALIZE_GAME:
       return { ...action.payload.game };
     case UPDATE_GAME:
-      return action.payload;
+      return action.payload || state;
     case EXIT_GAME:
       return {};
     case INCREMENT:
