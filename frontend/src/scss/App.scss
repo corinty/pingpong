@@ -76,12 +76,25 @@ body {
   grid-template-rows: 25% 75%;
   user-select: none;
   outline: none;
-  transition: all 0.15s ease-out;
+  transition: all 0.2s ease-in-out;
+
   &:disabled {
-    background: darken($color: #547c83, $amount: 5);
+    background: darken($color: #547c83, $amount: 1);
+    .score {
+      transform: scale(0.8);
+    }
+    .team-name {
+      transform: scale(1.1);
+    }
   }
   &:active {
-    // background: darken($color: #547c83, $amount: 10);
+    background: darken($color: #547c83, $amount: 1);
+    .score {
+      transform: scale(0.8);
+    }
+    .team-name {
+      transform: scale(1.1);
+    }
   }
   &:first-of-type {
     animation: flyInLeft 0.7s forwards;
@@ -95,10 +108,13 @@ body {
     font-size: 3rem;
   }
   .team-name {
+    transition: all 0.1s ease-in-out;
+
     padding-top: 32px;
     text-align: center;
   }
   .score {
+    transition: all 0.1s ease-in-out;
     height: 75%;
     font-size: 14rem;
   }
