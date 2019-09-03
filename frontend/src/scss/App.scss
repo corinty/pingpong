@@ -68,12 +68,21 @@ body {
 }
 
 .btn--increment {
+  appearance: none;
+  border: none;
   color: white;
   background: #547c83;
   display: grid;
   grid-template-rows: 25% 75%;
-
   user-select: none;
+  outline: none;
+  transition: all 0.15s ease-out;
+  &:disabled {
+    background: darken($color: #547c83, $amount: 5);
+  }
+  &:active {
+    // background: darken($color: #547c83, $amount: 10);
+  }
   &:first-of-type {
     animation: flyInLeft 0.7s forwards;
   }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { __RouterContext } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -32,6 +32,10 @@ export default function Game() {
     ...state.app,
     game: state.game
   }));
+  const [updatingScore, setUpdatingScore] = useState({
+    team1: false,
+    team2: false
+  });
 
   const { team1_name, team2_name, serveNum, pointsToWin } = matchState;
 
@@ -41,7 +45,7 @@ export default function Game() {
   } = useLiveGame(matchId, gameId);
   const winner = useCheckForWinner({ team1_score, team2_score });
 
-  const [updateScore] = useMutation(
+  const [updateScore, { loading: mutationRunning }] = useMutation(
     gql`
       mutation UpdateScore(
         $matchId: String!
@@ -117,22 +121,26 @@ export default function Game() {
 
   return loading ? null : (
     <Container className="pi-focused">
-      <div
+      <button
+        disabled={mutationRunning && updatingScore.team1}
         className="btn--increment"
         onClick={e => {
+          setUpdatingScore({ ...updatingScore, team1: true });
           updateScore({
             variables: {
               team: "team1",
               score: team1_score,
               increment: true
             }
+          }).then(res => {
+            setUpdatingScore({ ...updatingScore, team1: false });
           });
         }}>
         <p className="team-name">
           {team1_name && team1_name.length > 0 ? team1_name : "Team 1"}
         </p>
         <p className="score">{team1_score}</p>
-      </div>
+      </button>
 
       <div
         className="center-btns"
@@ -142,22 +150,26 @@ export default function Game() {
         }}
       />
 
-      <div
+      <button
         className="btn--increment"
+        disabled={mutationRunning && updatingScore.team2}
         onClick={() => {
+          setUpdatingScore({ ...updatingScore, team2: true });
           updateScore({
             variables: {
               team: "team2",
               score: team2_score,
               increment: true
             }
+          }).then(res => {
+            setUpdatingScore({ ...updatingScore, team2: false });
           });
         }}>
         <p className="team-name">
           {team2_name && team2_name.length > 0 ? team2_name : "Team 2"}
         </p>
         <p className="score">{team2_score}</p>
-      </div>
+      </button>
     </Container>
   );
 }
