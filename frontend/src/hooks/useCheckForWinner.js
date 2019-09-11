@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { UPDATE_MATCH } from "../store/types";
+import { DECLARE_WINNER_MUTAION } from "../store/mutations";
 
 export default function useCheckForWinner({ team1_score, team2_score }) {
   const dispatch = useDispatch();
@@ -57,21 +58,9 @@ export default function useCheckForWinner({ team1_score, team2_score }) {
 
   /**
    * Declare winner mutation
-   */ const [declareWinner, { data: mutationData, error }] = useMutation(gql`
-    mutation DeclareWinner(
-      $matchId: String!
-      $gameId: String!
-      $winner: TeamEnum!
-    ) {
-      declareWinner(matchId: $matchId, gameId: $gameId, winner: $winner) {
-        winner
-        gamesWon {
-          team1
-          team2
-        }
-      }
-    }
-  `);
+   */ const [declareWinner, { data: mutationData, error }] = useMutation(
+    DECLARE_WINNER_MUTAION
+  );
   useEffect(() => {
     if (!winner || loadingQuery) return;
     declareWinner({

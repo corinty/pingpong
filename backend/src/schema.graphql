@@ -17,7 +17,7 @@ type Mutation {
     increment: Boolean!
   ): Game
   declareWinner(matchId: String!, gameId: String!, winner: TeamEnum!): Match
-  nextGame(matchId: String!): Active
+  nextGame(matchId: String!, prevGreenTeam: TeamEnum!): Active
 }
 
 type Subscription {
@@ -45,6 +45,7 @@ type Game {
   team2_score: Int!
   winner: TeamEnum
   servingTeam: TeamEnum!
+  greenTeam: TeamEnum!
 }
 
 type Score {

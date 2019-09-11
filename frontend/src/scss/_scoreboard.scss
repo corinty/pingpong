@@ -24,5 +24,9 @@
   &__score {
     color: white;
     font-size: 80vh;
+    div {
+      width: 100%;
+      height: 100%;
+    }
   }
 }

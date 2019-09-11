@@ -11,12 +11,13 @@ const Mutations = {
         gamesToWin,
         ...restArgs
       } = args;
+      console.log(team1_name);
 
       const newMatch = await ctx.db.collection("matches").add({
         gamesToWin,
         pointsToWin,
-        team1_name,
-        team2_name,
+        team1_name: team1_name.length > 0 ? team1_name : "Team 1",
+        team2_name: team2_name.length > 0 ? team2_name : "Team 2",
         startedAt: ctx.FieldValue.serverTimestamp(),
         ...restArgs
       });
@@ -24,6 +25,7 @@ const Mutations = {
       const newGame = await newMatch.collection("games").add({
         team1_score: 0,
         team2_score: 0,
+        greenTeam: "team1",
         servingTeam: "team1"
       });
 
@@ -133,6 +135,8 @@ const Mutations = {
    * returns the activeIds document
    */
   async nextGame(par, args, ctx) {
+    const { prevGreenTeam } = args;
+
     const newGame = await ctx.db
       .collection("matches")
       .doc(args.matchId)
@@ -140,7 +144,8 @@ const Mutations = {
       .add({
         team1_score: 0,
         team2_score: 0,
-        servingTeam: "team1"
+        servingTeam: "team1",
+        greenTeam: prevGreenTeam === "team1" ? "team2" : "team1"
       });
 
     await ctx.db.doc("app/activeIds").update({

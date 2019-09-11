@@ -13,8 +13,6 @@ body {
   background: lighten($color: #547c83, $amount: 10);
 }
 
-#root {
-}
 .pi-focused {
   position: relative;
   height: 100vh;
@@ -71,12 +69,18 @@ body {
   appearance: none;
   border: none;
   color: white;
-  background: #547c83;
+
   display: grid;
   grid-template-rows: 25% 75%;
   user-select: none;
   outline: none;
   transition: all 0.2s ease-in-out;
+  &.green {
+    background: green;
+  }
+  &.blue {
+    background: #547c83;
+  }
 
   &:disabled {
     background: darken($color: #547c83, $amount: 1);

@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { __RouterContext } from "react-router-dom";
-import { useMutation } from "@apollo/react-hooks";
+
 import { gql } from "apollo-boost";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { SWAP_SERVE, CLEAR_GAME, EXIT_GAME } from "../store/types";
+import { useMutation } from "@apollo/react-hooks";
+import { UPDATE_SCORE_MUTATION } from "../store/mutations";
 import useLiveGame from "../hooks/useLiveGame";
 import useCheckForWinner from "../hooks/useCheckForWinner";
+
+import ScoreButton from "./ScoreButton";
 
 const Container = styled.div`
   display: grid;
@@ -37,47 +41,30 @@ export default function Game() {
     team2: false
   });
 
-  const { team1_name, team2_name, serveNum, pointsToWin } = matchState;
+  const { team1_name, team2_name, serveNum, pointsToWin, game } = matchState;
 
-  const {
-    data: { team1_score, team2_score },
-    loading
-  } = useLiveGame(matchId, gameId);
-  const winner = useCheckForWinner({ team1_score, team2_score });
+  const { data: liveGame, loading } = useLiveGame(matchId, gameId);
+  const winner = useCheckForWinner({
+    team1_score: liveGame.team1_score,
+    team2_score: liveGame.team2_score
+  });
 
   const [updateScore, { loading: mutationRunning }] = useMutation(
-    gql`
-      mutation UpdateScore(
-        $matchId: String!
-        $gameId: String!
-        $team: TeamEnum!
-        $score: Int!
-        $increment: Boolean!
-      ) {
-        updateScore(
-          matchId: $matchId
-          gameId: $gameId
-          team: $team
-          increment: $increment
-          score: $score
-        ) {
-          team1_score
-          team2_score
-        }
-      }
-    `,
+    UPDATE_SCORE_MUTATION,
     { variables: { matchId, gameId } }
   );
 
   useEffect(() => {
     document.addEventListener("keydown", addArcadeListeners);
     function addArcadeListeners(e) {
+      const blueTeam = game.greenTeam === "team1" ? "team2" : "team1";
+
       switch (e.key) {
         case "q":
           updateScore({
             variables: {
-              team: "team1",
-              score: team1_score,
+              team: game.greenTeam,
+              score: game[`${game.greenTeam}_score`],
               increment: true
             }
           });
@@ -85,8 +72,8 @@ export default function Game() {
         case "a":
           updateScore({
             variables: {
-              team: "team1",
-              score: team1_score,
+              team: game.greenTeam,
+              score: game[`${game.greenTeam}_score`],
               increment: false
             }
           });
@@ -94,8 +81,8 @@ export default function Game() {
         case "w":
           updateScore({
             variables: {
-              team: "team2",
-              score: team2_score,
+              team: blueTeam,
+              score: game[`${blueTeam}_score`],
               increment: true
             }
           });
@@ -103,8 +90,8 @@ export default function Game() {
         case "s":
           updateScore({
             variables: {
-              team: "team2",
-              score: team2_score,
+              team: blueTeam,
+              score: game[`${blueTeam}_score`],
               increment: false
             }
           });
@@ -115,32 +102,13 @@ export default function Game() {
     return () => {
       document.removeEventListener("keydown", addArcadeListeners);
     };
-  }, [dispatch, team1_score, team2_score, updateScore]);
+  }, [dispatch, updateScore, game]);
 
   // return <p>back to data testing</p>;
 
   return loading ? null : (
     <Container className="pi-focused">
-      <button
-        disabled={mutationRunning && updatingScore.team1}
-        className="btn--increment"
-        onClick={e => {
-          setUpdatingScore({ ...updatingScore, team1: true });
-          updateScore({
-            variables: {
-              team: "team1",
-              score: team1_score,
-              increment: true
-            }
-          }).then(res => {
-            setUpdatingScore({ ...updatingScore, team1: false });
-          });
-        }}>
-        <p className="team-name">
-          {team1_name && team1_name.length > 0 ? team1_name : "Team 1"}
-        </p>
-        <p className="score">{team1_score}</p>
-      </button>
+      <ScoreButton side="green" />
 
       <div
         className="center-btns"
@@ -150,26 +118,7 @@ export default function Game() {
         }}
       />
 
-      <button
-        className="btn--increment"
-        disabled={mutationRunning && updatingScore.team2}
-        onClick={() => {
-          setUpdatingScore({ ...updatingScore, team2: true });
-          updateScore({
-            variables: {
-              team: "team2",
-              score: team2_score,
-              increment: true
-            }
-          }).then(res => {
-            setUpdatingScore({ ...updatingScore, team2: false });
-          });
-        }}>
-        <p className="team-name">
-          {team2_name && team2_name.length > 0 ? team2_name : "Team 2"}
-        </p>
-        <p className="score">{team2_score}</p>
-      </button>
+      <ScoreButton side="blue" />
     </Container>
   );
 }

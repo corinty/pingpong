@@ -85,7 +85,7 @@ function NewMatch({ history }) {
         }}>
         <div>
           <label htmlFor="team1" onFocus={e => handleFocus(e)}>
-            Team 1:
+            Green:
             <input
               value={team1_name}
               name="team1_name"
@@ -96,7 +96,7 @@ function NewMatch({ history }) {
         </div>
         <div>
           <label htmlFor="team2" onFocus={e => handleFocus(e)}>
-            Team 2:
+            Blue:
             <input
               value={team2_name}
               name="team2_name"

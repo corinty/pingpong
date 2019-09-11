@@ -12,15 +12,13 @@ export default function useLiveIds() {
 
   useEffect(() => {
     const unsub = db.doc("app/activeIds").onSnapshot(ref => {
-      console.log("updating game ids");
-
       setData(ref.data());
       if (loading) setLoading(false);
     });
     return () => {
       unsub();
     };
-  });
+  }, []);
 
   return { ...data, loading };
 }

@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const GET_ACTIVE_MATCH = gql`
+export const ACTIVE_MATCH_QUERY = gql`
   query getActiveMatch {
     activeMatch {
       matchId
