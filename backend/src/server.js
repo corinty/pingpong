@@ -1,3 +1,5 @@
+require("@babel/register");
+
 const { print } = require("graphql/language/printer");
 const express = require("express");
 const { db, FieldValue } = require("./db");
