@@ -14,6 +14,7 @@ import firebase from "firebase/app";
 import { Provider } from "react-redux";
 import CurrentMatch from "./pages/CurrentMatch";
 import NewMatch from "./pages/NewMatch";
+import Winner from "./components/Winner";
 import ScoreBoard from "./pages/ScoreBoard";
 import "./scss/App.scss";
 
@@ -30,12 +31,13 @@ export default class App extends React.Component {
             <Switch>
               {/* Pi Focused screens  */}
 
-              <Route path="/match" exact component={NewMatch} />
+              <Route path={["/match", "/"]} exact component={NewMatch} />
               <Route
                 path={["/match/:matchId/game/:gameId"]}
                 component={CurrentMatch}
               />
               <Route path="/scoreboard" component={ScoreBoard} />
+              <Route path="/match/winner" component={Winner} />
             </Switch>
           </Router>
         </Provider>

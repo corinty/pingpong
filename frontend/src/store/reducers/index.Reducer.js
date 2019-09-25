@@ -1,5 +1,11 @@
 import { combineReducers } from "redux";
-import { APP_ERROR, INITIALIZE_MATCH, EXIT_GAME, UPDATE_MATCH } from "../types";
+import {
+  APP_ERROR,
+  INITIALIZE_MATCH,
+  EXIT_GAME,
+  UPDATE_MATCH,
+  UPDATE_IDS
+} from "../types";
 import matchReducer from "./match.reducer";
 import gameReducer from "./game.reducer";
 
@@ -22,6 +28,11 @@ function app(state = initialAppState, { type, error, payload }) {
       return {
         ...state,
         matchInit: true
+      };
+    case UPDATE_IDS:
+      return {
+        ...state,
+        ...payload
       };
     case APP_ERROR:
       return { ...state, error: true, errorMessage: error };

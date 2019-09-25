@@ -10,6 +10,7 @@ export const EXIT_GAME = "EXIT_GAME";
 export const APP_ERROR = "APP_ERROR";
 
 export const DECLARE_WINNER = "DECLARE_WINNER";
+export const UPDATE_IDS = "UPDATE_IDS";
 export const INCREMENT = "INCREMENT";
 export const DECREMENT = "DECREMENT";
 export const SWAP_SERVE = "SWAP_SERVE";

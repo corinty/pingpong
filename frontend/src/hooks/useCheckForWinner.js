@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { UPDATE_MATCH } from "../store/types";
+import { UPDATE_MATCH, UPDATE_GAME, DECLARE_WINNER } from "../store/types";
 import { DECLARE_WINNER_MUTAION } from "../store/mutations";
+import { declareWinnerAction } from "../store/actions/actions";
 
 export default function useCheckForWinner({ team1_score, team2_score }) {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [winner, setWinner] = useState(null);
+
   const { data, loading: loadingQuery } = useQuery(
     gql`
       query getActiveMatch {
@@ -50,11 +54,10 @@ export default function useCheckForWinner({ team1_score, team2_score }) {
         finalScore: { team1_score, team2_score },
         winningTeam: results[0]
       };
-      console.log(winnerObj);
 
       setWinner(winnerObj);
     }
-  }, [data.activeMatch, loadingQuery, team1_score, team2_score]);
+  }, [data, loadingQuery, team1_score, team2_score]);
 
   /**
    * Declare winner mutation
@@ -69,8 +72,13 @@ export default function useCheckForWinner({ team1_score, team2_score }) {
         gameId: data.activeMatch.gameId,
         winner: winner.winningTeam
       }
-    }).then(res => {
-      dispatch({ type: UPDATE_MATCH, payload: res.data.declareWinner });
+    }).then(({ data: { declareWinner } }) => {
+      dispatch({ type: DECLARE_WINNER });
+      history.push("/match/winner", {
+        match: {
+          ...declareWinner
+        }
+      });
     });
   }, [data, declareWinner, dispatch, loadingQuery, winner]);
 

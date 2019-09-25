@@ -1,4 +1,4 @@
-import { INITIALIZE_MATCH, INITIALIZE_GAME } from "../types";
+import { INITIALIZE_MATCH, INITIALIZE_GAME, DECLARE_WINNER } from "../types";
 
 export const initializeMatchAction = ({ data, history }) => {
   return async dispatch => {
@@ -12,5 +12,14 @@ export const initializeGameAction = ({ data, history }) => {
     dispatch({ type: INITIALIZE_GAME, payload: data.game });
 
     history.push(`/match/${data.matchId}/game/${data.gameId}`, { ...data });
+  };
+};
+
+export const declareWinnerAction = ({ data, history }) => {
+  const { game, match, navigate } = data;
+  return async dispatch => {
+    console.log(history);
+
+
   };
 };

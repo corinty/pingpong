@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { __RouterContext } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 import { gql } from "apollo-boost";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { SWAP_SERVE, CLEAR_GAME, EXIT_GAME } from "../store/types";
 import { useMutation } from "@apollo/react-hooks";
 import { UPDATE_SCORE_MUTATION } from "../store/mutations";
-import useLiveGame from "../hooks/useLiveGame";
+import useSubscribeToGame from "../hooks/useSubscribeToGame";
 import useCheckForWinner from "../hooks/useCheckForWinner";
 
 import ScoreButton from "./ScoreButton";
@@ -23,12 +23,8 @@ export default function Game() {
   /**
    * Component data
    */
-  const {
-    history,
-    match: {
-      params: { matchId, gameId }
-    }
-  } = useContext(__RouterContext);
+  const { loading } = useSubscribeToGame();
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const matchState = useSelector(state => ({
@@ -41,13 +37,15 @@ export default function Game() {
     team2: false
   });
 
-  const { team1_name, team2_name, serveNum, pointsToWin, game } = matchState;
-
-  const { data: liveGame, loading } = useLiveGame(matchId, gameId);
-  const winner = useCheckForWinner({
-    team1_score: liveGame.team1_score,
-    team2_score: liveGame.team2_score
-  });
+  const {
+    team1_name,
+    team2_name,
+    serveNum,
+    pointsToWin,
+    game,
+    matchId,
+    gameId
+  } = matchState;
 
   const [updateScore, { loading: mutationRunning }] = useMutation(
     UPDATE_SCORE_MUTATION,

@@ -1,19 +1,34 @@
 import React, { useContext, useEffect } from "react";
+import classnames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { __RouterContext } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { initializeGameAction } from "../store/actions/actions";
 import { EXIT_GAME } from "../store/types";
+import useSubscribeToGame from "../hooks/useSubscribeToGame";
 
-export default function Winner({ winner, matchId }) {
-  const { history } = useContext(__RouterContext);
+export default function Winner() {
+  const history = useHistory();
   const dispatch = useDispatch();
+
   const greenTeam = useSelector(state => state.game.greenTeam);
-  const teamNames = useSelector(state => ({
-    team1: state.match.team1_name,
-    team2: state.match.team2_name
+  const state = useSelector(state => ({
+    team1: { name: state.match.team1_name, score: state.game.team1_score },
+    team2: { name: state.match.team2_name, score: state.game.team2_score },
+    greenTeam: state.game.greenTeam,
+    isMatchOver: state.match.winner !== null,
+    matchWinner: state.match.winner,
+    gameWinner: state.game.winner,
+    app: state.app
   }));
+
+  const {
+    app: { matchId, gameId },
+    isMatchOver,
+    gameWinner,
+    matchWinner
+  } = state;
 
   const [nextGame, { loading: mutationLoading }] = useMutation(
     gql`
@@ -31,6 +46,13 @@ export default function Winner({ winner, matchId }) {
     `,
     { variables: { matchId, prevGreenTeam: greenTeam } }
   );
+  const greenOrBlue = isMatchOver
+    ? matchWinner === greenTeam
+      ? "green"
+      : gameWinner === greenTeam
+      ? "green"
+      : "blue"
+    : "blue";
 
   useEffect(() => {
     document.addEventListener("keydown", addArcadeListeners);
@@ -47,24 +69,32 @@ export default function Winner({ winner, matchId }) {
     };
   }, [dispatch, history, nextGame]);
 
-  if (winner.match) {
+  if (isMatchOver) {
     setTimeout(() => {
       dispatch({ type: EXIT_GAME });
       history.push("/match");
-    }, 5000);
+    }, 10000);
+  }
+  if (!gameWinner) {
+    return (
+      <>
+        <p>Unknown Error</p>
+        <button onClick={() => history.push("/match")}>New Match Screen</button>
+      </>
+    );
   }
 
   return (
-    <div className="winner-screen pi-focused">
+    <div className={classnames("winner-screen pi-focused", greenOrBlue)}>
       <p>
-        {winner.match
-          ? `${teamNames[winner.match]} wins the Match!`
-          : `${teamNames[winner.game]} wins the Game!`}
+        {isMatchOver
+          ? `${state[matchWinner].name} wins the Match!`
+          : `${state[gameWinner].name} wins the Game!`}
       </p>
       <button
         className="btn--full-width"
         onClick={() => {
-          if (winner.match) {
+          if (isMatchOver) {
             dispatch({ type: EXIT_GAME });
             history.push("/match");
           } else {
@@ -75,7 +105,7 @@ export default function Winner({ winner, matchId }) {
             });
           }
         }}>
-        {winner.match
+        {isMatchOver
           ? "New Match"
           : !mutationLoading
           ? "Next Game"

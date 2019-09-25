@@ -1,4 +1,4 @@
-require("@babel/register");
+// require("@babel/register");
 
 const { print } = require("graphql/language/printer");
 const express = require("express");

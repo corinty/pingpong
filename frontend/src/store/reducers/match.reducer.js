@@ -1,4 +1,9 @@
-import { UPDATE_MATCH, EXIT_GAME, INITIALIZE_MATCH } from "../types";
+import {
+  UPDATE_MATCH,
+  EXIT_GAME,
+  INITIALIZE_MATCH,
+  DECLARE_WINNER
+} from "../types";
 
 export const matchInitial = {
   totalGamesPlayed: 0,
@@ -15,6 +20,7 @@ export default function gameReducer(state = matchInitial, action) {
         ...state,
         ...action.payload
       };
+
     case EXIT_GAME:
       return {};
 

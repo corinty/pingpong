@@ -13,6 +13,13 @@ body {
   background: lighten($color: #547c83, $amount: 10);
 }
 
+.green {
+  background: green !important;
+}
+.blue {
+  background: #547c83 !important;
+}
+
 .pi-focused {
   position: relative;
   height: 100vh;
@@ -33,17 +40,6 @@ body {
   align-items: center;
   font-size: 1.45rem;
   text-align: center;
-}
-
-.winner-modal {
-  position: absolute;
-  width: 100vw;
-  height: 90vh;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .center-btns {
@@ -75,12 +71,6 @@ body {
   user-select: none;
   outline: none;
   transition: all 0.2s ease-in-out;
-  &.green {
-    background: green;
-  }
-  &.blue {
-    background: #547c83;
-  }
 
   &:disabled {
     background: darken($color: #547c83, $amount: 1);
@@ -169,12 +159,14 @@ button.btn--full-width {
 
 .winner-screen {
   background: white;
-  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
   p {
+    font-weight: bold;
+    font-size: 4em;
+    color: white;
     margin: auto;
   }
 }

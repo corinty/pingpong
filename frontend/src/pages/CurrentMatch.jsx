@@ -1,6 +1,6 @@
 /* eslint-disable*/
 import React, { useEffect } from "react";
-import { __RouterContext } from "react-router-dom";
+import { __RouterContext, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useQuery } from "@apollo/react-hooks";
 import { db } from "../store/firebaseConfig";
@@ -18,20 +18,11 @@ function CurrentMatch({ history, match: { params } }) {
   });
 
   useEffect(() => {
-    if (loading) return;
+    if (loading || matchInit) return;
     dispatch({ type: UPDATE_MATCH, payload: data.activeMatch?.match });
   }, [data]);
 
-  const winner = useSelector(state => ({
-    game: state.game.winner,
-    match: state.match.winner
-  }));
-
-  return winner.game || winner.match ? (
-    <Winner winner={winner} matchId={params.matchId} />
-  ) : (
-    <Game />
-  );
+  return <Game />;
 }
 
 export default CurrentMatch;

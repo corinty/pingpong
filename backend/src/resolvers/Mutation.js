@@ -19,6 +19,7 @@ const Mutations = {
         team1_name: team1_name.length > 0 ? team1_name : "Team 1",
         team2_name: team2_name.length > 0 ? team2_name : "Team 2",
         startedAt: ctx.FieldValue.serverTimestamp(),
+        winner: null,
         ...restArgs
       });
 
@@ -51,14 +52,24 @@ const Mutations = {
       const gameRef = await ctx.db.doc(
         `matches/${args.matchId}/games/${args.gameId}`
       );
+      /**
+       * Grabs the document from the reference
+       */
+      const gameDoc = await gameRef.get();
+      /**
+       * Checks to see if there is already a winner
+       */
+      if (gameDoc.data().winner !== undefined) {
+        throw new ApolloError(
+          "This game already has a winner and therefore can't update score"
+        );
+      }
 
       /**
        * Checks to see if score would go negative
        * if it would then it just returns
        */
       if (args.score - 1 < 0 && !args.increment) {
-        const gameDoc = await gameRef.get();
-
         return gameDoc.data();
       }
       /**
@@ -70,11 +81,6 @@ const Mutations = {
         ),
         serveNum: 3
       });
-
-      /**
-       * Grabs the document from the reference
-       */
-      const gameDoc = await gameRef.get();
 
       /**
        * Returns the updated game document
@@ -105,7 +111,7 @@ const Mutations = {
         gamesToWin
       } = matchData;
 
-      //If one of the teams have won enough games then declare the winner of the match
+      // If one of the teams have won enough games then declare the winner of the match
       if (team1 >= gamesToWin || team2 >= gamesToWin) {
         await ctx.db.doc(`matches/${args.matchId}`).update({
           winner: args.winner,
@@ -115,14 +121,13 @@ const Mutations = {
         const updatedMatchRef = await ctx.db
           .doc(`matches/${args.matchId}`)
           .get();
-        await ctx.db.doc("app/activeIds").set({ matchId: "", gameId: "" });
+        await ctx.db.doc("app/activeIds").set({ matchId: null, gameId: null });
         const updatedMatchData = await updatedMatchRef.data();
 
         return updatedMatchData;
-      } else {
-        //If there's no match winner return the match data
-        return matchData;
       }
+      // If there's no match winner return the match data
+      return matchData;
     } catch (error) {
       throw new ApolloError(error);
     }
