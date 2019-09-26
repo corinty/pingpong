@@ -78,7 +78,6 @@ function NewMatch({ history }) {
           })
             .then(res => {
               const data = res.data.createMatch;
-
               dispatch(initializeMatchAction({ data, history }));
             })
             .catch(err => console.error(err));

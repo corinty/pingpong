@@ -11,6 +11,8 @@ import useSubscribeToGame from "../hooks/useSubscribeToGame";
 import useCheckForWinner from "../hooks/useCheckForWinner";
 
 import ScoreButton from "./ScoreButton";
+import { loadPartialConfig } from "@babel/core";
+import useRegisterGamePad from "../hooks/useRegisterGamePad";
 
 const Container = styled.div`
   display: grid;
@@ -23,19 +25,15 @@ export default function Game() {
   /**
    * Component data
    */
+  useRegisterGamePad();
   const { loading } = useSubscribeToGame();
   const history = useHistory();
-
   const dispatch = useDispatch();
   const matchState = useSelector(state => ({
     ...state.match,
     ...state.app,
     game: state.game
   }));
-  const [updatingScore, setUpdatingScore] = useState({
-    team1: false,
-    team2: false
-  });
 
   const {
     team1_name,
@@ -47,67 +45,9 @@ export default function Game() {
     gameId
   } = matchState;
 
-  const [updateScore, { loading: mutationRunning }] = useMutation(
-    UPDATE_SCORE_MUTATION,
-    { variables: { matchId, gameId } }
-  );
-
-  useEffect(() => {
-    document.addEventListener("keydown", addArcadeListeners);
-    function addArcadeListeners(e) {
-      const blueTeam = game.greenTeam === "team1" ? "team2" : "team1";
-
-      switch (e.key) {
-        case "q":
-          updateScore({
-            variables: {
-              team: game.greenTeam,
-              score: game[`${game.greenTeam}_score`],
-              increment: true
-            }
-          });
-          break;
-        case "a":
-          updateScore({
-            variables: {
-              team: game.greenTeam,
-              score: game[`${game.greenTeam}_score`],
-              increment: false
-            }
-          });
-          break;
-        case "w":
-          updateScore({
-            variables: {
-              team: blueTeam,
-              score: game[`${blueTeam}_score`],
-              increment: true
-            }
-          });
-          break;
-        case "s":
-          updateScore({
-            variables: {
-              team: blueTeam,
-              score: game[`${blueTeam}_score`],
-              increment: false
-            }
-          });
-          break;
-        default:
-      }
-    }
-    return () => {
-      document.removeEventListener("keydown", addArcadeListeners);
-    };
-  }, [dispatch, updateScore, game]);
-
-  // return <p>back to data testing</p>;
-
   return loading ? null : (
     <Container className="pi-focused">
       <ScoreButton side="green" />
-
       <div
         className="center-btns"
         onClick={() => {

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { __RouterContext } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
@@ -16,6 +16,7 @@ const ScoreButton = ({ side }) => {
     { variables: { matchId, gameId } }
   );
   const [isDisabled, setDisabled] = useState(false);
+  const [justScored, setJustScored] = useState(false);
   const greenTeam = useSelector(state => state.game.greenTeam);
   const team =
     side === "green" ? greenTeam : greenTeam === "team1" ? "team2" : "team1";
@@ -26,10 +27,19 @@ const ScoreButton = ({ side }) => {
     };
   });
   const { name, score } = teamInfo;
+  useEffect(() => {
+    console.log(justScored, team, teamInfo.score);
+
+    if (teamInfo.score === 0 || teamInfo.score === undefined) return;
+    setJustScored(true);
+    setTimeout(() => {
+      setJustScored(false);
+    }, 1000);
+  }, [teamInfo.score]);
 
   return (
     <button
-      className={"btn--increment " + side}
+      className={"btn--increment " + side + `${justScored ? " scored" : ""}`}
       disabled={mutationRunning && isDisabled}
       onClick={() => {
         setDisabled(true);

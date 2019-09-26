@@ -30,7 +30,6 @@ export default class App extends React.Component {
           <Router>
             <Switch>
               {/* Pi Focused screens  */}
-
               <Route path={["/match", "/"]} exact component={NewMatch} />
               <Route
                 path={["/match/:matchId/game/:gameId"]}

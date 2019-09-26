@@ -1,4 +1,9 @@
-import { INITIALIZE_MATCH, INITIALIZE_GAME, DECLARE_WINNER } from "../types";
+import {
+  INITIALIZE_MATCH,
+  INITIALIZE_GAME,
+  DECLARE_WINNER,
+  EXIT_GAME
+} from "../types";
 
 export const initializeMatchAction = ({ data, history }) => {
   return async dispatch => {
@@ -15,11 +20,36 @@ export const initializeGameAction = ({ data, history }) => {
   };
 };
 
-export const declareWinnerAction = ({ data, history }) => {
-  const { game, match, navigate } = data;
-  return async dispatch => {
-    console.log(history);
-
-
+export const buttonPressedAction = ({
+  buttonColor,
+  dif,
+  updateScore,
+  nextGame,
+  history
+}) => {
+  return async (dispatch, getState) => {
+    const { game, app, match } = getState();
+    const isGreen = buttonColor === "green";
+    const blueTeam = game.greenTeam === "team1" ? "team2" : "team1";
+    if (!app.matchInit) {
+      // TODO Start match when buttons is pressed
+    } else if (match.winner) {
+      dispatch({ type: EXIT_GAME });
+      history.push("/match");
+    } else if (game.winner) {
+      nextGame().then(res => {
+        dispatch(initializeGameAction({ data: res.data.nextGame, history }));
+      });
+    } else {
+      updateScore({
+        variables: {
+          team: isGreen ? game.greenTeam : blueTeam,
+          score: game[`${isGreen ? game.greenTeam : blueTeam}_score`],
+          increment: dif <= 450 ? true : false,
+          matchId: app.matchId,
+          gameId: app.gameId
+        }
+      });
+    }
   };
 };

@@ -15,9 +15,18 @@ body {
 
 .green {
   background: green !important;
+  &:after {
+    background: green;
+    left: 100%;
+  }
 }
+
 .blue {
   background: #547c83 !important;
+  &:after {
+    background: #547c83;
+    right: 100%;
+  }
 }
 
 .pi-focused {
@@ -63,14 +72,31 @@ body {
 
 .btn--increment {
   appearance: none;
+  position: relative;
   border: none;
   color: white;
-
+  z-index: 1;
   display: grid;
   grid-template-rows: 25% 75%;
   user-select: none;
   outline: none;
   transition: all 0.2s ease-in-out;
+  &:after {
+    pointer-events: none;
+    content: " ";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    width: 200%;
+    transition: all 0.15s ease-out;
+  }
+  &.scored {
+    z-index: 50 !important;
+    &:after {
+      opacity: 1;
+    }
+  }
 
   &:disabled {
     background: darken($color: #547c83, $amount: 1);
