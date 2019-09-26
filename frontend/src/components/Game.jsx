@@ -16,7 +16,6 @@ import useRegisterGamePad from "../hooks/useRegisterGamePad";
 
 const Container = styled.div`
   display: grid;
-  height: 100%;
   position: relative;
   grid-template-columns: 1fr 50px 1fr;
 `;
