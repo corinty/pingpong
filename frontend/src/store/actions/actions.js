@@ -31,8 +31,9 @@ export const buttonPressedAction = ({
     const { game, app, match } = getState();
     const isGreen = buttonColor === "green";
     const blueTeam = game.greenTeam === "team1" ? "team2" : "team1";
-    if (!app.matchInit) {
-      // TODO Start match when buttons is pressed
+    if (!app.matchId || !app.gameId) {
+      dispatch({ type: EXIT_GAME });
+      history.push("/match");
     } else if (match.winner) {
       dispatch({ type: EXIT_GAME });
       history.push("/match");
