@@ -171,7 +171,7 @@ function NewMatch({ history }) {
                 "Z X C V B N M",
                 "{shift} & {space} , {close}"
               ],
-              numpad: ["7 8 9", "4 5 6", "1 2 3", " 0 {ok}"]
+              numpad: ["7 8 9", "4 5 6", "1 2 3", "{bksp} 0 {ok}"]
             }}
             buttonTheme={[
               {

@@ -11,6 +11,7 @@ import { ACTIVE_MATCH_QUERY } from "../store/queries";
 
 function CurrentMatch({ history, match: { params } }) {
   const matchInit = useSelector(state => state.app.matchInit);
+  const matchId = useSelector(state => state.app.matchId);
   const dispatch = useDispatch();
 
   const { data, loading } = useQuery(ACTIVE_MATCH_QUERY, {
@@ -22,7 +23,7 @@ function CurrentMatch({ history, match: { params } }) {
     dispatch({ type: UPDATE_MATCH, payload: data.activeMatch?.match });
   }, [data]);
 
-  return <Game />;
+  return !matchId ? <Redirect to="/match" /> : <Game />;
 }
 
 export default CurrentMatch;
