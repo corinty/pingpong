@@ -12,7 +12,6 @@ export const matchInitial = {
 export default function gameReducer(state = matchInitial, action) {
   switch (action.type) {
     case INITIALIZE_MATCH:
-      delete action.payload.match.__typename;
       return action.payload.match;
 
     case UPDATE_MATCH:

@@ -18,6 +18,9 @@ import Winner from "./components/Winner";
 import ScoreBoard from "./pages/ScoreBoard";
 import "./scss/App.scss";
 
+import LogRocket from "logrocket";
+LogRocket.init("mgellb/ping-pong");
+
 const store = createReduxStore(firebase);
 
 const client = new ApolloClient();
