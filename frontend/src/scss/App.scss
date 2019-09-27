@@ -89,6 +89,7 @@ body {
     bottom: 0;
     opacity: 0;
     width: 200%;
+    z-index: 49;
     transition: all 0.15s ease-out;
   }
   &.scored {

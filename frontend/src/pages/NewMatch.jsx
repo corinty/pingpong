@@ -9,6 +9,7 @@ import "react-simple-keyboard/build/css/index.css";
 function NewMatch({ history }) {
   const dispatch = useDispatch();
   const [keyboardShowing, showKeyboard] = useState(false);
+  const [isDisabled, disableButton] = useState(false);
   const [inputTarget, setInputTarget] = useState(null);
   const [layoutName, setLayoutName] = useState("default");
   const [state, setState] = useState({
@@ -59,6 +60,7 @@ function NewMatch({ history }) {
   }
 
   function handleFocus(e) {
+    disableButton(true);
     setLayoutName(e.target.name === "pointsToWin" ? "numpad" : "default");
     setState({ ...state, [e.target.name]: "" });
     setInputTarget(e.target.name);
@@ -131,10 +133,8 @@ function NewMatch({ history }) {
             />
           </label>
         </div>
-        <button
-          disabled={keyboardShowing}
-          type="submit"
-          className="btn--full-width">
+
+        <button disabled={isDisabled} type="submit" className="btn--full-width">
           {mutationLoading ? "Loading..." : "Start Match"}
         </button>
       </form>
@@ -185,6 +185,9 @@ function NewMatch({ history }) {
               }
               if (btn === "{close}" || btn === "{ok}") {
                 showKeyboard(false);
+                setTimeout(() => {
+                  disableButton(false);
+                }, 100);
               }
             }}
             mergeDisplay={true}

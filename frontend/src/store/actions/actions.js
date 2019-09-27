@@ -14,7 +14,7 @@ export const initializeMatchAction = ({ data, history }) => {
 };
 export const initializeGameAction = ({ data, history }) => {
   return async dispatch => {
-    dispatch({ type: INITIALIZE_GAME, payload: data.game });
+    dispatch({ type: INITIALIZE_GAME, payload: { game: { ...data.game } } });
 
     history.push(`/match/${data.matchId}/game/${data.gameId}`, { ...data });
   };
