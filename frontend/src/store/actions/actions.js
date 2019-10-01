@@ -1,4 +1,10 @@
-import { INITIALIZE_MATCH, INITIALIZE_GAME, DECLARE_WINNER, EXIT_GAME } from "../types";
+import {
+    INITIALIZE_MATCH,
+    UPDATE_LOCAL_GAME,
+    INITIALIZE_GAME,
+    DECLARE_WINNER,
+    EXIT_GAME,
+} from "../types";
 
 export const initializeMatchAction = ({ data, history }) => {
     return async dispatch => {
