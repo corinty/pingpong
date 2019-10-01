@@ -12,11 +12,6 @@ const server = new ApolloServer({
   resolvers: {
     Query,
     Mutation,
-    Subscription: {
-      scoreUpdated(par, args, ctx) {
-        console.log("yeet yeet");
-      },
-    },
     Active: {
       async match(active) {
         try {

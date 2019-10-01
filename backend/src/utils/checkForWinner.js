@@ -32,8 +32,6 @@ export function processGameOver({
   console.log(matchWinner);
 
   if (matchWinner === "team1" || matchWinner === "team2") {
-    console.log("there is a match winner");
-
     transaction.update(matchRef, {
       winner: matchWinner,
       finishedAt: FieldValue.serverTimestamp(),

@@ -5,12 +5,8 @@ type Query {
 type Mutation {
   createMatch(gamesToWin: Int, pointsToWin: Int, team1_name: String, team2_name: String): Active
   updateScore(matchId: String!, gameId: String!, team: TeamEnum!, increment: Boolean!): Game
-  declareWinner(matchId: String!, gameId: String!, winner: TeamEnum!): Match
+  clearIds: String
   nextGame(matchId: String!, prevGreenTeam: TeamEnum!): Active
-}
-
-type Subscription {
-  scoreUpdated(gameId: Int): Game
 }
 
 type Match {

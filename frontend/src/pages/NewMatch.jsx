@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { db } from "../store/firebaseConfig";
 import { initializeMatchAction } from "../store/actions/actions";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
@@ -18,6 +19,7 @@ function NewMatch({ history }) {
         pointsToWin: 21,
         gamesToWin: 3,
     });
+
     const [createMatch, { loading: mutationLoading }] = useMutation(gql`
         mutation CreateMatch(
             $pointsToWin: Int
@@ -47,6 +49,14 @@ function NewMatch({ history }) {
             }
         }
     `);
+    const [clearIds, { data }] = useMutation(gql`
+        mutation {
+            clearIds
+        }
+    `);
+    useEffect(() => {
+        clearIds();
+    }, []);
 
     const { team1_name, team2_name, gamesToWin, pointsToWin } = state;
     function handleChange(e) {

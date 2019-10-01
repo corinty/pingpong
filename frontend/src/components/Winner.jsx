@@ -90,8 +90,8 @@ export default function Winner() {
         <div className={classnames("winner-screen pi-focused", greenOrBlue)}>
             <p>
                 {isMatchOver
-                    ? `${state[matchWinner].name} wins the Match!`
-                    : `${state[gameWinner].name} wins the Game!`}
+                    ? `${state[matchWinner].name} wins the match!`
+                    : `${state[gameWinner].name} wins the game!`}
             </p>
             <button
                 className="btn--full-width"

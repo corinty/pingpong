@@ -22,6 +22,17 @@
         background-position: 0% 10%;
     }
 }
+.winner-state {
+    box-sizing: border-box;
+    border-top: 5px solid black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: span 2;
+    text-align: center;
+    font-size: 5rem;
+}
 .open-table {
     font-family: "Raleway", sans-serif;
     line-height: 1;

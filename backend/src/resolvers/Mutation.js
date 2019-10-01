@@ -1,4 +1,5 @@
 import { ApolloError } from "apollo-server";
+
 import updateScore from "./mutations/updateScore";
 
 const uuid = require("uuid/v4");
@@ -7,7 +8,6 @@ const Mutations = {
   async createMatch(parent, args, ctx) {
     try {
       const { team1_name, team2_name, pointsToWin, gamesToWin, ...restArgs } = args;
-      console.log(team1_name);
 
       const newMatch = await ctx.db.collection("matches").add({
         gamesToWin,
@@ -45,14 +45,7 @@ const Mutations = {
     }
   },
   updateScore: (parent, args, ctx) => updateScore(parent, args, ctx),
-  async declareWinner(par, args, ctx) {},
-  /**
-   * Creates a new game that is attached to the matchId from
-   * the args.  Then it updates the active gameId from the app
-   * collection.
-   *
-   * returns the activeIds document
-   */
+
   async nextGame(par, args, ctx) {
     const { prevGreenTeam } = args;
 
@@ -73,6 +66,14 @@ const Mutations = {
     const activeRef = await ctx.db.doc("app/activeIds").get();
 
     return activeRef.data();
+  },
+  async clearIds(par, ars, ctx) {
+    try {
+      ctx.db.doc("app/activeIds").update({ gameId: null, matchId: null });
+      return "Successfully cleared Ids";
+    } catch (err) {
+      new ApolloError(err);
+    }
   },
 };
 
