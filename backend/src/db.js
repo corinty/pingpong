@@ -1,9 +1,9 @@
-var admin = require("firebase-admin");
-const serviceAccount = require("../tydev-ping-pong-firebase-admin.json");
+import admin from "firebase-admin";
+import serviceAccount from "../firebase-admin.json";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://tydev-ping-pong.firebaseio.com"
+  databaseURL: "https://tydev-ping-pong.firebaseio.com",
 });
 
 const db = admin.firestore();

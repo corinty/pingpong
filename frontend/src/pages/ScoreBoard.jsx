@@ -1,63 +1,54 @@
 import React, { useEffect } from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
-import { ACTIVE_MATCH_QUERY } from "../store/queries";
+import { useSelector } from "react-redux";
 import useSubscribeToGame from "../hooks/useSubscribeToGame";
-import useLiveIds from "../hooks/useLiveIds";
 
 export default function ScoreBoard() {
-  const { matchId, gameId } = useLiveIds();
-  const { data, loading, refetch: refetchNames } = useQuery(
-    gql`
-      query getActiveMatch {
-        activeMatch {
-          match {
-            team1_name
-            team2_name
-          }
-        }
-      }
-    `,
-    {
-      fetchPolicy: "network-only"
-    }
-  );
-
-  const { loading: firebaseLoading, data: game } = useSubscribeToGame(
-    matchId,
-    gameId,
-    { dispatch: false }
-  );
+  const { loading, isOpen } = useSubscribeToGame(false);
+  const { game, match, matchId, gameId } = useSelector(state => ({
+    game: state.game,
+    match: state.match,
+    matchId: state.app.matchId,
+    gameId: state.app.gameId
+  }));
   const { greenTeam } = game;
+  const blueTeam = game.greenTeam === "team1" ? "team2" : "team1";
+  const gamesPlayed = match.gamesWon?.team1 + match.gamesWon?.team2;
 
-  useEffect(() => {
-    refetchNames();
-  }, [matchId]);
-
-  return !firebaseLoading && !loading ? (
-    <div className="scoreboard">
-      <TeamScore
-        score={game[`${greenTeam}_score`]}
-        team={data.activeMatch?.match[`${greenTeam}_name`]}
-      />
-      <TeamScore
-        score={game[`${greenTeam === "team1" ? "team2" : "team1"}_score`]}
-        team={
-          data.activeMatch?.match[
-            `${greenTeam === "team1" ? "team2" : "team1"}_name`
-          ]
-        }
-      />
-    </div>
+  return !loading ? (
+    !matchId ? (
+      <div className="scoreboard">
+        <p className="open-table">
+          Table
+          <br /> Open
+        </p>
+      </div>
+    ) : (
+      <div className="scoreboard">
+        <div className="games-played" style={{ gridColumn: "span 2" }}>
+          <p>
+            Game {isNaN(gamesPlayed) ? 0 : gamesPlayed} of {match.gamesToWin}
+          </p>
+        </div>
+        <TeamScore
+          score={game[`${greenTeam}_score`]}
+          team={match[`${greenTeam}_name`]}
+          green
+        />
+        <TeamScore
+          score={game[`${blueTeam}_score`]}
+          team={match[`${blueTeam}_name`]}
+        />
+      </div>
+    )
   ) : (
     <p>Loading...</p>
   );
 }
 
-function TeamScore({ score, team }) {
+function TeamScore({ score, team, green }) {
   return (
-    <div className="team-score">
-      <h1>{team}:</h1>
+    <div className={`team-score ${green ? "green" : ""}`}>
+      <h1>{team}</h1>
       <div className="scoreboard__score">{score}</div>
     </div>
   );

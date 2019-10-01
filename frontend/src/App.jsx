@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "apollo-boost";
 import createReduxStore from "./store/store";
@@ -19,31 +14,31 @@ import ScoreBoard from "./pages/ScoreBoard";
 import "./scss/App.scss";
 
 import LogRocket from "logrocket";
-LogRocket.init("mgellb/ping-pong");
+// LogRocket.init("mgellb/ping-pong");
 
 const store = createReduxStore(firebase);
 
 const client = new ApolloClient();
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <Provider store={store}>
-          <Router>
-            <Switch>
-              {/* Pi Focused screens  */}
-              <Route path={["/match", "/"]} exact component={NewMatch} />
-              <Route
-                path={["/match/:matchId/game/:gameId"]}
-                component={CurrentMatch}
-              />
-              <Route path="/scoreboard" component={ScoreBoard} />
-              <Route path="/match/winner" component={Winner} />
-            </Switch>
-          </Router>
-        </Provider>
-      </ApolloProvider>
-    );
-  }
+    render() {
+        return (
+            <ApolloProvider client={client}>
+                <Provider store={store}>
+                    <Router>
+                        <Switch>
+                            {/* Pi Focused screens  */}
+                            <Route path={["/match", "/"]} exact component={NewMatch} />
+                            <Route
+                                path={["/match/:matchId/game/:gameId"]}
+                                component={CurrentMatch}
+                            />
+                            <Route path="/scoreboard" component={ScoreBoard} />
+                            <Route path="/match/winner" component={Winner} />
+                        </Switch>
+                    </Router>
+                </Provider>
+            </ApolloProvider>
+        );
+    }
 }

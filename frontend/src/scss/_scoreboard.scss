@@ -1,37 +1,80 @@
 .scoreboard {
-  background: grey;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-
-  overflow: hidden;
-  box-sizing: border-box;
-
-  font-family: "Archivo Black", sans-serif;
-
-  & > * {
+    background: linear-gradient(230deg, #a24bcf, #4b79cf, #4bc5cf);
+    background-size: 300% 300%;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 10vh 1fr;
+    overflow: hidden;
+    box-sizing: border-box;
+    animation: movinGradient 30s ease infinite;
+    font-family: "Archivo Black", sans-serif;
+}
+@keyframes movinGradient {
+    0% {
+        background-position: 0% 10%;
+    }
+    50% {
+        background-position: 100% 91%;
+    }
+    100% {
+        background-position: 0% 10%;
+    }
+}
+.open-table {
+    font-family: "Raleway", sans-serif;
+    line-height: 1;
+    font-weight: 100;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 40vh;
+    transform-origin: bottom center;
+    animation: backAndForth 250s ease-in infinite;
+}
+@keyframes backAndForth {
+    from {
+        transform: translateX(0%);
+    }
+    50% {
+        transform: translateX(50%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+.games-played {
+    display: grid;
+    // grid-template-columns: repeat(3, 1fr);
+    text-align: center;
+    padding-top: 2vh;
+    font-size: 6vh;
+    color: white;
+    p {
+        line-height: 1;
+        margin: 0;
+        padding: 0;
+    }
+}
+.team-score {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-}
+    color: white;
+    font-size: 33vw;
+    background: $blue;
+    &:first-child {
+        @extend .green;
+    }
 
-.team-score {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 33vw;
-  @extend .blue;
-  &:first-child {
-    @extend .green;
-  }
-
-  h1 {
-    font-size: 14vh;
-    margin: 0;
-    font-weight: normal;
-  }
+    h1 {
+        font-size: 14vh;
+        margin: 0;
+        font-weight: normal;
+    }
 }

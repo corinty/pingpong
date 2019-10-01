@@ -1,16 +1,12 @@
-const { ApolloError } = require("apollo-server");
+import { ApolloError } from "apollo-server";
+import updateScore from "./mutations/updateScore";
+
 const uuid = require("uuid/v4");
 
 const Mutations = {
   async createMatch(parent, args, ctx) {
     try {
-      const {
-        team1_name,
-        team2_name,
-        pointsToWin,
-        gamesToWin,
-        ...restArgs
-      } = args;
+      const { team1_name, team2_name, pointsToWin, gamesToWin, ...restArgs } = args;
       console.log(team1_name);
 
       const newMatch = await ctx.db.collection("matches").add({
@@ -20,14 +16,18 @@ const Mutations = {
         team2_name: team2_name.length > 0 ? team2_name : "Team 2",
         startedAt: ctx.FieldValue.serverTimestamp(),
         winner: null,
-        ...restArgs
+        gamesWon: {
+          team1: 0,
+          team2: 0,
+        },
+        ...restArgs,
       });
 
       const newGame = await newMatch.collection("games").add({
         team1_score: 0,
         team2_score: 0,
         greenTeam: "team1",
-        servingTeam: "team1"
+        servingTeam: "team1",
       });
 
       const matchRef = await newMatch.get();
@@ -35,7 +35,7 @@ const Mutations = {
 
       await ctx.db.doc("app/activeIds").update({
         matchId: matchRef.id,
-        gameId: newGameRef.id
+        gameId: newGameRef.id,
       });
       const activeIdDoc = await ctx.db.doc("app/activeIds").get();
 
@@ -44,94 +44,8 @@ const Mutations = {
       throw new ApolloError(err);
     }
   },
-  async updateScore(parent, args, ctx) {
-    try {
-      /**
-       * Grabs the inital reference to the current game
-       */
-      const gameRef = await ctx.db.doc(
-        `matches/${args.matchId}/games/${args.gameId}`
-      );
-      /**
-       * Grabs the document from the reference
-       */
-      const gameDoc = await gameRef.get();
-      /**
-       * Checks to see if there is already a winner
-       */
-      if (gameDoc.data().winner !== undefined) {
-        throw new ApolloError(
-          "This game already has a winner and therefore can't update score"
-        );
-      }
-
-      /**
-       * Checks to see if score would go negative
-       * if it would then it just returns
-       */
-      if (args.score - 1 < 0 && !args.increment) {
-        return gameDoc.data();
-      }
-      /**
-       * Updates the score based on the incremeant argument
-       */
-      await gameRef.update({
-        [`${args.team}_score`]: ctx.FieldValue.increment(
-          args.increment ? 1 : -1
-        ),
-        serveNum: 3
-      });
-
-      /**
-       * Returns the updated game document
-       */
-      return gameDoc.data();
-    } catch (error) {
-      throw new ApolloError(error);
-    }
-  },
-  async declareWinner(par, args, ctx) {
-    try {
-      // Incremeants the match winner on the match document
-      await ctx.db.doc(`matches/${args.matchId}`).update({
-        [`gamesWon.${args.winner}`]: ctx.FieldValue.increment(1)
-      });
-
-      // Declares the winner on the game document
-      await ctx.db
-        .doc(`matches/${args.matchId}/games/${args.gameId}`)
-        .update({ winner: args.winner });
-
-      // Grabs the match Reference and then the data from the document
-      const matchRef = await ctx.db.doc(`matches/${args.matchId}`).get();
-      const matchData = await matchRef.data();
-
-      const {
-        gamesWon: { team1, team2 },
-        gamesToWin
-      } = matchData;
-
-      // If one of the teams have won enough games then declare the winner of the match
-      if (team1 >= gamesToWin || team2 >= gamesToWin) {
-        await ctx.db.doc(`matches/${args.matchId}`).update({
-          winner: args.winner,
-          finishedAt: ctx.FieldValue.serverTimestamp()
-        });
-
-        const updatedMatchRef = await ctx.db
-          .doc(`matches/${args.matchId}`)
-          .get();
-        await ctx.db.doc("app/activeIds").set({ matchId: null, gameId: null });
-        const updatedMatchData = await updatedMatchRef.data();
-
-        return updatedMatchData;
-      }
-      // If there's no match winner return the match data
-      return matchData;
-    } catch (error) {
-      throw new ApolloError(error);
-    }
-  },
+  updateScore: (parent, args, ctx) => updateScore(parent, args, ctx),
+  async declareWinner(par, args, ctx) {},
   /**
    * Creates a new game that is attached to the matchId from
    * the args.  Then it updates the active gameId from the app
@@ -150,17 +64,16 @@ const Mutations = {
         team1_score: 0,
         team2_score: 0,
         servingTeam: "team1",
-        greenTeam: prevGreenTeam === "team1" ? "team2" : "team1"
+        greenTeam: prevGreenTeam === "team1" ? "team2" : "team1",
       });
 
     await ctx.db.doc("app/activeIds").update({
-      gameId: newGame.id
+      gameId: newGame.id,
     });
     const activeRef = await ctx.db.doc("app/activeIds").get();
-    console.log(activeRef.data());
 
     return activeRef.data();
-  }
+  },
 };
 
 module.exports = Mutations;

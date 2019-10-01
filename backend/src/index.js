@@ -1,15 +1,8 @@
-// require("@babel/register");
-
-const { print } = require("graphql/language/printer");
-const express = require("express");
-const { db, FieldValue } = require("./db");
+import { print } from "graphql/language/printer";
+import express from "express";
+import { db, FieldValue } from "./db";
 const { importSchema } = require("graphql-import");
-const {
-  ApolloServer,
-  ApolloError,
-  ValidationError,
-  gql
-} = require("apollo-server-express");
+const { ApolloServer, ApolloError, ValidationError, gql } = require("apollo-server-express");
 const typeDefs = importSchema("./src/schema.graphql");
 const Query = require("./resolvers/Query");
 const Mutation = require("./resolvers/Mutation");
@@ -22,7 +15,7 @@ const server = new ApolloServer({
     Subscription: {
       scoreUpdated(par, args, ctx) {
         console.log("yeet yeet");
-      }
+      },
     },
     Active: {
       async match(active) {
@@ -35,17 +28,15 @@ const server = new ApolloServer({
       },
       async game(active) {
         try {
-          const gameRef = await db
-            .doc(`matches/${active.matchId}/games/${active.gameId}`)
-            .get();
+          const gameRef = await db.doc(`matches/${active.matchId}/games/${active.gameId}`).get();
           return gameRef.data();
         } catch (error) {
           throw new ApolloError(error);
         }
-      }
-    }
+      },
+    },
   },
-  context: { db, FieldValue }
+  context: { db, FieldValue },
 });
 
 var app = express();
@@ -58,6 +49,4 @@ app.get("/", (req, res) => {
 
 app.listen(5001);
 
-console.log(
-  `Running a GraphQL API server at http://localhost:5001${server.graphqlPath}`
-);
+console.log(`Running a GraphQL API server at http://localhost:5001${server.graphqlPath}`);

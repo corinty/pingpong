@@ -3,19 +3,8 @@ type Query {
 }
 
 type Mutation {
-  createMatch(
-    gamesToWin: Int
-    pointsToWin: Int
-    team1_name: String
-    team2_name: String
-  ): Active
-  updateScore(
-    matchId: String!
-    gameId: String!
-    team: TeamEnum!
-    score: Int!
-    increment: Boolean!
-  ): Game
+  createMatch(gamesToWin: Int, pointsToWin: Int, team1_name: String, team2_name: String): Active
+  updateScore(matchId: String!, gameId: String!, team: TeamEnum!, increment: Boolean!): Game
   declareWinner(matchId: String!, gameId: String!, winner: TeamEnum!): Match
   nextGame(matchId: String!, prevGreenTeam: TeamEnum!): Active
 }
