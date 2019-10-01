@@ -32,7 +32,7 @@ export default function ScoreBoard() {
             <div className="scoreboard">
                 <div className="games-played" style={{ gridColumn: "span 2" }}>
                     <p>
-                        Game {isNaN(gamesPlayed) ? 0 : gamesPlayed} of {match.gamesToWin}
+                        Game {isNaN(gamesPlayed) ? 0 : gamesPlayed + 1} of {match.gamesToWin}
                     </p>
                 </div>
                 {!game.winner && (

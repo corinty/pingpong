@@ -14,7 +14,7 @@ import ScoreBoard from "./pages/ScoreBoard";
 import "./scss/App.scss";
 
 import LogRocket from "logrocket";
-// LogRocket.init("mgellb/ping-pong");
+LogRocket.init("mgellb/ping-pong");
 
 const store = createReduxStore(firebase);
 
