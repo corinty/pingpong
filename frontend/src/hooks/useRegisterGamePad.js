@@ -4,7 +4,7 @@ import gameControl from "gamecontroller.js/src/gamecontrol";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { gql } from "apollo-boost";
-import { buttonPressedAction } from "../store/actions/actions";
+import { buttonPressedAction } from "../actions/actions";
 import { UPDATE_SCORE_MUTATION } from "../store/mutations";
 
 export default function useRegisterGamePad() {

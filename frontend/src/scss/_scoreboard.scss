@@ -1,15 +1,27 @@
-.scoreboard {
-    background: linear-gradient(230deg, #a24bcf, #4b79cf, #4bc5cf);
-    background-size: 300% 300%;
+.scoreboard-page {
     height: 100vh;
     width: 100vw;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.scoreboard {
+    animation: fadeIn 2s ease forwards;
+    background-size: 300% 300%;
+    height: 100%;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 10vh 1fr;
-    overflow: hidden;
+    grid-template-rows: 14vh 1fr;
     box-sizing: border-box;
-    animation: movinGradient 30s ease infinite;
     font-family: "Archivo Black", sans-serif;
+    overflow: hidden;
 }
 @keyframes movinGradient {
     0% {
@@ -43,7 +55,7 @@
     text-align: center;
     color: white;
     font-weight: bold;
-    font-size: 40vh;
+    font-size: 45vh;
     transform-origin: bottom center;
     animation: backAndForth 250s ease-in infinite;
 }

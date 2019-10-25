@@ -9,8 +9,10 @@ import firebase from "firebase/app";
 import { Provider } from "react-redux";
 import CurrentMatch from "./pages/CurrentMatch";
 import NewMatch from "./pages/NewMatch";
+import LandingPage from "./pages/LandingPage";
+import Dashboard from "./pages/Dashboard";
 import Winner from "./components/Winner";
-import ScoreBoard from "./pages/ScoreBoard";
+import ScorePage from "./pages/ScorePage";
 import "./scss/App.scss";
 
 import LogRocket from "logrocket";
@@ -28,12 +30,14 @@ export default class App extends React.Component {
                     <Router>
                         <Switch>
                             {/* Pi Focused screens  */}
-                            <Route path={["/match", "/"]} exact component={NewMatch} />
+                            <Route path={"/"} exact component={LandingPage} />
+                            <Route path={"/match"} exact component={NewMatch} />
                             <Route
                                 path={["/match/:matchId/game/:gameId"]}
                                 component={CurrentMatch}
                             />
-                            <Route path="/scoreboard" component={ScoreBoard} />
+                            <Route path="/scoreboard" component={ScorePage} />
+                            <Route path="/dashbaord" component={Dashboard} />
                             <Route path="/match/winner" component={Winner} />
                         </Switch>
                     </Router>

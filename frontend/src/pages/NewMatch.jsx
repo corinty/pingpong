@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { db } from "../store/firebaseConfig";
-import { initializeMatchAction } from "../store/actions/actions";
+import { db } from "../store/db";
+import { initializeMatchAction } from "../actions/actions";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
@@ -18,6 +18,8 @@ function NewMatch({ history }) {
         team2_name: "",
         pointsToWin: 21,
         gamesToWin: 3,
+        loginInput: "",
+        isLoggedIn: false,
     });
 
     const [createMatch, { loading: mutationLoading }] = useMutation(gql`
@@ -55,10 +57,14 @@ function NewMatch({ history }) {
         }
     `);
     useEffect(() => {
+        if (localStorage.getItem("pingPongTracker3000")) {
+            setState({ ...state, isLoggedIn: true });
+        }
+
         clearIds();
     }, []);
 
-    const { team1_name, team2_name, gamesToWin, pointsToWin } = state;
+    const { team1_name, team2_name, gamesToWin, pointsToWin, loginInput, isLoggedIn } = state;
     function handleChange(e) {
         setState({
             ...state,
@@ -79,73 +85,108 @@ function NewMatch({ history }) {
 
     return (
         <div style={{ display: "grid" }} className="pi-focused">
-            <form
-                className="new-match-form"
-                autoComplete="off"
-                onSubmit={async e => {
-                    e.preventDefault();
+            {isLoggedIn ? (
+                <form
+                    className="new-match-form"
+                    autoComplete="off"
+                    onSubmit={async e => {
+                        e.preventDefault();
 
-                    createMatch({
-                        variables: state,
-                    })
-                        .then(res => {
-                            const data = res.data.createMatch;
-                            dispatch(initializeMatchAction({ data, history }));
+                        createMatch({
+                            variables: state,
                         })
-                        .catch(err => console.error(err));
-                }}>
-                <div>
-                    <label htmlFor="team1" onFocus={e => handleFocus(e)}>
-                        Green:
-                        <input
-                            value={team1_name}
-                            name="team1_name"
-                            id="team1"
-                            onChange={e => handleChange(e)}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="team2" onFocus={e => handleFocus(e)}>
-                        Blue:
-                        <input
-                            value={team2_name}
-                            name="team2_name"
-                            onChange={e => handleChange(e)}
-                            id="team2"
-                        />
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="game-type">
-                        Games To Play:
-                        <select
-                            name="gamesToWin"
-                            id="game-type"
-                            value={gamesToWin}
-                            onChange={e => handleChange(e)}>
-                            <option value="3">3</option>
-                            <option value="2">2/3</option>
-                            <option value="1">1</option>
-                        </select>
-                    </label>
-                </div>
-                <div>
-                    <label htmlFor="pointsToWin" onFocus={e => handleFocus(e)} onBlur={() => {}}>
-                        Points To Win:
-                        <input
-                            type="number"
-                            name="pointsToWin"
-                            value={pointsToWin}
-                            onChange={e => handleChange(e)}
-                        />
-                    </label>
-                </div>
+                            .then(res => {
+                                const data = res.data.createMatch;
+                                dispatch(initializeMatchAction({ data, history }));
+                            })
+                            .catch(err => console.error(err));
+                    }}>
+                    <div>
+                        <label htmlFor="team1" onFocus={e => handleFocus(e)}>
+                            Green:
+                            <input
+                                value={team1_name}
+                                name="team1_name"
+                                id="team1"
+                                onChange={e => handleChange(e)}
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label htmlFor="team2" onFocus={e => handleFocus(e)}>
+                            Blue:
+                            <input
+                                value={team2_name}
+                                name="team2_name"
+                                onChange={e => handleChange(e)}
+                                id="team2"
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label htmlFor="game-type">
+                            Games To Play:
+                            <select
+                                name="gamesToWin"
+                                id="game-type"
+                                value={gamesToWin}
+                                onChange={e => handleChange(e)}>
+                                <option value="3">3</option>
+                                <option value="2">2/3</option>
+                                <option value="1">1</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div>
+                        <label
+                            htmlFor="pointsToWin"
+                            onFocus={e => handleFocus(e)}
+                            onBlur={() => {}}>
+                            Points To Win:
+                            <input
+                                type="number"
+                                name="pointsToWin"
+                                value={pointsToWin}
+                                onChange={e => handleChange(e)}
+                            />
+                        </label>
+                    </div>
 
-                <button disabled={isDisabled} type="submit" className="btn--full-width">
-                    {mutationLoading ? "Loading..." : "Start Match"}
-                </button>
-            </form>
+                    <button disabled={isDisabled} type="submit" className="btn--full-width">
+                        {mutationLoading ? "Loading..." : "Start Match"}
+                    </button>
+                </form>
+            ) : (
+                <div className="pi-login-screen">
+                    <form
+                        onSubmit={e => {
+                            e.preventDefault();
+                            //TODO:: Implement a real login setup
+                            if (state.loginInput === "pingpong") {
+                                setState({
+                                    ...state,
+                                    loginInput: "",
+                                    isLoggedIn: true,
+                                });
+                                localStorage.setItem("pingPongTracker3000", true);
+                                showKeyboard(false);
+                            } else {
+                                setState({ ...state, loginInput: "" });
+                            }
+                        }}>
+                        <label htmlFor="piLbogin" onFocus={e => handleFocus(e)} onBlur={() => {}}>
+                            Login:
+                            <input
+                                type="string"
+                                value={state.loginInput}
+                                name="loginInput"
+                                onChange={e => handleChange(e)}
+                            />
+                        </label>
+                        <button type="submit">Enter</button>
+                    </form>
+                </div>
+            )}
             {keyboardShowing && (
                 <div
                     className={`keyboard__container ${

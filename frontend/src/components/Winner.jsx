@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useHistory } from "react-router-dom";
-import { initializeGameAction } from "../store/actions/actions";
+import { initializeGameAction } from "..//actions/actions";
 import { EXIT_GAME } from "../store/types";
 import useSubscribeToGame from "../hooks/useSubscribeToGame";
 

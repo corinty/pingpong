@@ -1,0 +1,10 @@
+{
+    "apiKey": "AIzaSyAfkG4S5l3j6vOwMACGcpNMtlVkJPxvofc",
+    "authDomain": "ping-pong-local.firebaseapp.com",
+    "databaseURL": "https://ping-pong-local.firebaseio.com",
+    "projectId": "ping-pong-local",
+    "storageBucket": "ping-pong-local.appspot.com",
+    "messagingSenderId": "783845264143",
+    "appId": "1:783845264143:web:676d12cb13a3b6a557cc7a",
+    "measurementId": "G-84JYCB82WY"
+}

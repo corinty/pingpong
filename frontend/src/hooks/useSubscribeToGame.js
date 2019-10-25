@@ -3,9 +3,8 @@ import { useQuery } from "@apollo/react-hooks";
 import { UPDATE_GAME, UPDATE_MATCH } from "../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { gql } from "apollo-boost";
-import { db } from "../store/firebaseConfig";
+import { db } from "../store/db";
 import { ACTIVE_MATCH_QUERY } from "../store/queries";
-import { declareWinnerAction } from "../store/actions/actions";
 
 import useLiveIds from "./useLiveIds";
 

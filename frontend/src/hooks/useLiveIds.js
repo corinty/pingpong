@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { UPDATE_GAME, UPDATE_IDS } from "../store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { gql } from "apollo-boost";
-import { db } from "../store/firebaseConfig";
+import { db } from "../store/db";
 
 export default function useLiveIds() {
   const dispatch = useDispatch();

@@ -1,0 +1,20 @@
+.landing-page {
+    color: white;
+    display: flex;
+    flex-direction: column;
+
+    a {
+        font-size: 2rem;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-decoration: none;
+        background: #4bc5cf;
+        transition: all 0.2s ease;
+        padding: 20px;
+        &:hover,&:active {
+            background: darken($color: #4bc5cf, $amount: 10);
+        }
+    }
+}

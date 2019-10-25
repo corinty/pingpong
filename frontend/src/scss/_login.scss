@@ -1,0 +1,19 @@
+.pi-login-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    input {
+        margin: 20px;
+        height: 8vh;
+        width: 40vw;
+    }
+    button {
+        height: 8vh;
+        width: 8vw;
+        appearance: none;
+        background: #4bc5cf;
+        color: white;
+        font-size: 1rem;
+    }
+}

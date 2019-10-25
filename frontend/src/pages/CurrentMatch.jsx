@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { __RouterContext, Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useQuery } from "@apollo/react-hooks";
-import { db } from "../store/firebaseConfig";
+import { db } from "../store/db";
 import { UPDATE_MATCH } from "../store/types";
 import Game from "../components/Game";
 import Winner from "../components/Winner";
