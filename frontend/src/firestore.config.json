@@ -1,10 +1,9 @@
 {
-    "apiKey": "AIzaSyAfkG4S5l3j6vOwMACGcpNMtlVkJPxvofc",
-    "authDomain": "ping-pong-local.firebaseapp.com",
-    "databaseURL": "https://ping-pong-local.firebaseio.com",
-    "projectId": "ping-pong-local",
-    "storageBucket": "ping-pong-local.appspot.com",
-    "messagingSenderId": "783845264143",
-    "appId": "1:783845264143:web:676d12cb13a3b6a557cc7a",
-    "measurementId": "G-84JYCB82WY"
+    "apiKey": "AIzaSyCcrzECR6WLk_YtsCk6rUMbNxfFh0cn__8",
+    "authDomain": "tydev-ping-pong.firebaseapp.com",
+    "databaseURL": "https://tydev-ping-pong.firebaseio.com",
+    "projectId": "tydev-ping-pong",
+    "storageBucket": "tydev-ping-pong.appspot.com",
+    "messagingSenderId": "29869586839",
+    "appId": "1:29869586839:web:080ae459d72aa8f6"
 }
