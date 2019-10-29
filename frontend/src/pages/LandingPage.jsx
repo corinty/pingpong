@@ -1,37 +1,31 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-var firebase = require("firebase");
-var firebaseui = require("firebaseui");
+import { useDispatch, useSelector } from "react-redux";
+import { UPDATE_ACCESS } from "../store/types";
 
-const ui = new firebaseui.auth.AuthUI(firebase.auth());
 export default function LandingPage() {
-    const actionCodeSettings = {
-        // URL you want to redirect back to. The domain (www.example.com) for this
-        // URL must be whitelisted in the Firebase Console.
-        url: "http://localhost:3000",
-        // This must be true.
-        handleCodeInApp: true,
-        iOS: {
-            bundleId: "com.example.ios",
-        },
-        android: {
-            packageName: "com.example.android",
-            installApp: true,
-            minimumVersion: "12",
-        },
-        dynamicLinkDomain: "example.page.link",
-    };
-
+    const dispatch = useDispatch();
+    const isController = useSelector(state => state.app.isController);
     useEffect(() => {
-        // ui.start("#signin", {
-        //     signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
-        //     // Other config options...
-        // });
+        async function checkWriteAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const apiKey = urlParams.get("apiKey");
+            if (apiKey) {
+                const { isController } = await fetch(`/access-check/?apiKey=${apiKey}`).then(
+                    res => {
+                        return res.json();
+                    }
+                );
+
+                dispatch({ type: UPDATE_ACCESS, payload: { isController } });
+            }
+        }
+        checkWriteAccess();
     }, []);
     return (
         <div className="landing-page">
             <p>Welcome</p>
-            <Link to="/match">Start Pi Based Tracker</Link>
+            {isController && <Link to="/match">Start Controller</Link>}
             <Link to="/scoreboard">Scoreboard</Link>
             <Link to="/dashbaord">Dashboard</Link>
             <div id="signin"></div>

@@ -38,6 +38,22 @@ var app = express();
 
 server.applyMiddleware({ app });
 
+app.get("/access-check", async (req, res) => {
+  const keyStatus = await db
+    .collection("keys")
+    .doc(req.query.apiKey)
+    .get()
+    .then(doc => doc.data());
+
+  if (keyStatus && keyStatus.valid) {
+    console.log("yes");
+
+    res.json({ isController: true });
+  } else {
+    res.json({ isController: false });
+  }
+});
+
 app.get("/", (req, res) => {
   res.send("How you doin");
 });

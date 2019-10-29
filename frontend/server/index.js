@@ -10,12 +10,12 @@ process.title = "pingpong";
 
 app.use(express.static(path.join(__dirname, "../build")));
 
-app.get("/healthcheck", (req, res) => res.sendStatus(200));
+app.get("/ping", (req, res) => res.send("pong"));
 
 app.get("/*", function(req, res) {
-  res.sendFile(path.join(__dirname, "../build/index.html"));
+    res.sendFile(path.join(__dirname, "../build/index.html"));
 });
 
 app.listen(port, () => {
-  console.info(`Server listening at http://localhost:${port}`);
+    console.info(`Server listening at http://localhost:${port}`);
 });

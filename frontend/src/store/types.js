@@ -1,5 +1,6 @@
 export const INITIALIZE_GAME = "INITIALIZE_GAME";
 export const INITIALIZE_MATCH = "INITIALIZE_MATCH";
+export const UPDATE_ACCESS = "UPDATE_ACCESS";
 
 export const CREATE_GAME = "CREATE_GAME";
 export const UPDATE_MATCH = "UPDATE_MATCH";
