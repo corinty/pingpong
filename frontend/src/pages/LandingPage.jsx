@@ -7,6 +7,8 @@ export default function LandingPage() {
     const dispatch = useDispatch();
     const isController = useSelector(state => state.app.isController);
     useEffect(() => {
+        console.log("landing loaded");
+
         async function checkWriteAccess() {
             const urlParams = new URLSearchParams(window.location.search);
             const apiKey = urlParams.get("apiKey");
