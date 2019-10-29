@@ -5,7 +5,7 @@ export default function Clock() {
 
     useEffect(() => {
         var timerID = setInterval(function() {
-            const newTime = formatAMPM(new Date());
+            const newTime = formatAMPM(new Date(), -5);
             if (newTime === time) return;
             updateTime(newTime);
         }, 1000);
@@ -15,8 +15,8 @@ export default function Clock() {
     return <div>{time}</div>;
 }
 
-function formatAMPM(date) {
-    var hours = date.getHours();
+function formatAMPM(date = new Date(), offset = 0) {
+    var hours = date.getUTCHours() + offset;
     var minutes = date.getMinutes();
     var ampm = hours >= 12 ? "pm" : "am";
     hours = hours % 12;
