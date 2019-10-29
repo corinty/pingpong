@@ -13,7 +13,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "npm run build"
+            "pre-push": "npm run build && git commit --amend --no-edit -a"
         }
     },
     "browserslist": {
