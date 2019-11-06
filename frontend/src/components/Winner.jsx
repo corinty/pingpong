@@ -71,12 +71,12 @@ export default function Winner() {
         };
     }, [dispatch, history, nextGame]);
 
-    // if (isMatchOver) {
-    //   setTimeout(() => {
-    //     dispatch({ type: EXIT_GAME });
-    //     history.push("/match");
-    //   }, 10000);
-    // }
+    if (isMatchOver) {
+        setTimeout(() => {
+            dispatch({ type: EXIT_GAME });
+            history.push("/match");
+        }, 10000);
+    }
     if (!gameWinner) {
         return (
             <>

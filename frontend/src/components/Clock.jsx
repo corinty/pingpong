@@ -5,7 +5,7 @@ export default function Clock() {
 
     useEffect(() => {
         var timerID = setInterval(function() {
-            const newTime = formatAMPM(new Date(), -5);
+            const newTime = formatAMPM(new Date(), -6);
             if (newTime === time) return;
             updateTime(newTime);
         }, 1000);
